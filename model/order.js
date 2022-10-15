@@ -37,7 +37,7 @@ orderSchema.pre('save', async function(next) {
 
         this.total += this.items[i].productId.price * this.items[i].quantity;
     }
-    this.transportCost = this.total > 10 ? 0 : 5
+    this.transportCost = this.total > 10 ? 0 : 7
     this.total += this.transportCost;
     next();
 });
