@@ -9,7 +9,8 @@ router.post('/signup', authCtl.signup);
 router.post('/signin', authCtl.signin);
 
 router.post('/forgotPassword', authCtl.forgotPassword);
-router.patch('/resetPassword/:token', authCtl.resetPassword)
+router.patch('/resetPassword/:token', authCtl.resetPassword);
+router.patch('/changePassword', authCtl.protect, authCtl.changePassword);
 
 router.route('/')
     .post(userCtl.createUser)

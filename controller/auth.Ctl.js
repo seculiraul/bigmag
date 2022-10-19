@@ -13,6 +13,17 @@ const signToken = id => {
 }
 
 
+const createSendToken = (user, statusCode, res) => {
+    const token = signToken(user._id);
+    res.status(statusCode).json({
+        status: 'success',
+        token,
+        data: {
+            user
+        }
+    });
+}
+
 exports.protect = catchAsync(async(req, res, next) => {
     let token;
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
@@ -165,4 +176,24 @@ exports.resetPassword = catchAsync( async (req, res, next) => {
         status: 'success',
         token
     })
+});
+
+exports.changePassword = catchAsync(async(req, res, next) => {
+    //1 Get user from collection
+    if(!req.user) return next(new ApiError('Please login', 400));
+    const user = await User.findById(req.user._id).select('+password');
+    //2 Is posted password correct
+    if(!(await user.correctPassword(req.body.password, user.password))) return next(new ApiError('Password is not correct', 400));
+    //3 Update password
+    user.password = req.body.newPassword;
+    user.passwordConfirmed = req.body.newPasswordConfirmed;
+    await user.save();
+    
+    //4 Log user in
+    //createSendToken(user, 200, res);
+    const token = signToken(user._id);
+    res.status(200).json({
+        status: 'success',
+        token
+    });
 });
