@@ -85,15 +85,7 @@ exports.signup = catchAsync(async(req, res, next) => {
         passwordChangedAt: req.body.passwordChangedAt
     });
 
-    const token = signToken(user._id);
-
-    res.status(201).json({
-        message: 'success',
-        token,
-        data: {
-            user
-        }
-    })
+    createSendToken(user, 201, res);
 });
 
 exports.signin = catchAsync(async(req, res, next) => {
@@ -105,14 +97,7 @@ exports.signin = catchAsync(async(req, res, next) => {
     
     if(!user || !(await user.correctPassword(password, user.password))) return next(new ApiError('Email or password are not valid'));
 
-    const token = signToken(user._id);
-
-    res.status(201).json({
-        message: 'success',
-        data: {
-            token
-        }
-    });
+    createSendToken(user, 201, res);
 });
 
 exports.forgotPassword = catchAsync(async(req, res, next) => {
@@ -171,11 +156,7 @@ exports.resetPassword = catchAsync( async (req, res, next) => {
     await user.save();
 
     //4 send login token
-    const token = signToken(user._id);
-    res.status(200).json({
-        status: 'success',
-        token
-    })
+    createSendToken(user, 200, res);
 });
 
 exports.changePassword = catchAsync(async(req, res, next) => {
@@ -190,10 +171,5 @@ exports.changePassword = catchAsync(async(req, res, next) => {
     await user.save();
     
     //4 Log user in
-    //createSendToken(user, 200, res);
-    const token = signToken(user._id);
-    res.status(200).json({
-        status: 'success',
-        token
-    });
+    createSendToken(user, 200, res);
 });
