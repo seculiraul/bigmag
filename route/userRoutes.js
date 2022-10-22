@@ -17,7 +17,9 @@ router.route('/')
     .get(userCtl.getAllUsers);
 
 router.route('/me')
-    .patch(authCtl.protect, userCtl.updateMe);
+    .patch(authCtl.protect, userCtl.updateMe)
+    .delete(authCtl.protect, userCtl.deleteMe);
+
 router.route('/:id').get(userCtl.getOrderForUser);
 
 module.exports = router;
