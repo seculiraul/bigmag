@@ -52,7 +52,12 @@ const userSchema = new mongoose.Schema({
     orders: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Orders'
-    }]
+    }],
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }
 })
 
 userSchema.methods.correctPassword = async function(candidatePass, currentPass) {
@@ -90,5 +95,10 @@ userSchema.pre('save', async function(next)  {
     this.passwordConfirmed = undefined;
     next();
 });
+
+userSchema.pre(/^find/, function(next) {
+    this.find({active: {$ne: false}});
+    next();
+})
 
 module.exports = mongoose.model('User', userSchema);
