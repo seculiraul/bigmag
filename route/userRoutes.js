@@ -16,6 +16,8 @@ router.route('/')
     .post(userCtl.createUser)
     .get(userCtl.getAllUsers);
 
+router.route('/me')
+    .patch(authCtl.protect, userCtl.updateMe);
 router.route('/:id').get(userCtl.getOrderForUser);
 
 module.exports = router;
