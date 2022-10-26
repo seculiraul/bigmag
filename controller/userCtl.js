@@ -75,7 +75,19 @@ exports.deleteMe = catchAsync(async(req, res, next) => {
         status: 'success',
         data: null
     })
-})
+});
+
+
+exports.getMe = catchAsync(async(req, res, next) => {
+    const user = await User.findById(req.user._id).select('-__v -role -orders');
+
+    res.status(200).json({
+        status:'success',
+        data: {
+            user
+        }
+    });
+});
 
 
 
