@@ -3,7 +3,10 @@ const Product = require('./product');
 
 
 const orderSchema = new mongoose.Schema({
-    address: Object,
+    address: {
+        type: Object,
+        required: [true, 'Address is required for an order!']
+    },
     phone: {
         type: String,
         required: true
