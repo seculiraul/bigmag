@@ -48,7 +48,8 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
         }
     }*/
     //let filter = {}
-    const features = new ApiFeatures(Product.find(), req.query)
+
+    const features = new ApiFeatures(Product, req.query)
     .filter()
     .sort()
     .limitFields()
@@ -121,4 +122,10 @@ exports.getProduct = catchAsync( async(req, res, next) => {
             product
         }
     })
+});
+
+
+exports.searchProducts = catchAsync(async(req, res, next) => {
+
+    //const products = await
 })

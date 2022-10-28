@@ -82,9 +82,9 @@ class ApiFeatures {
         excluded.forEach(el => delete obj[el]);
 
         obj = JSON.stringify(obj);
-        obj.replace(/\b(gt|gte|lt|lte)/g, match => `$${match}`);
+        obj = obj.replace(/\b(gt|gte|lt|lte)/g, match => `$${match}`);
         obj = JSON.parse(obj);
-        this.query = this.query.find();
+        this.query = this.query.find(obj);
 
         return this;
     }
