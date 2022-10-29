@@ -13,8 +13,8 @@ router.patch('/resetPassword/:token', authCtl.resetPassword);
 router.patch('/changePassword', authCtl.protect, authCtl.changePassword);
 
 router.route('/')
-    .post(userCtl.createUser)
-    .get(userCtl.getAllUsers);
+    .post(authCtl.protect, authCtl.restrictTo('admin'), userCtl.createUser)
+    .get(authCtl.protect, authCtl.restrictTo('admin'), userCtl.getAllUsers);
 
 router.route('/me')
     .get(authCtl.protect, userCtl.getMe)
