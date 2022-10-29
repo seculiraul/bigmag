@@ -1,7 +1,9 @@
 const express = require('express');
+
 const productCtl = require('../controller/productCtl');
 const auth = require('../controller/auth.Ctl');
 const router = express.Router();
+const authCtl = require('../controller/auth.Ctl');
 
 
 
